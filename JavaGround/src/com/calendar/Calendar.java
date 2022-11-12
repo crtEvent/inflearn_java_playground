@@ -21,25 +21,33 @@ public class Calendar {
 
 	public static void main(String[] args) {
 		
-		// [과제2]
-		// 숫자를 입력받아 해당하는 달의 최대 일수를 출력하는 프로그램
+		// [과제3]
+		// 반복 입력하도록 프로그램 변경하기
 		// ## 학습목표
-		// * 변수를 사용할 수 있다.
-		// * if 를 사용할 수 있다.
-		// * 배열을 사용해 본다
+		// * 반복문을 사용해 본다.
+		// * for 문과 while 문의 차이점에 대해 생각해 본다.
 		// ## 요구사항
 		// * 월을 입력하면 그 달이 몇일로 구성되어 있는지 출력하는 프로그램 작성하기
-		
+		// * 원하는 입력횟수를 먼저 입력받는다.
+
 		Scanner scanner = new Scanner(System.in);
 		Calendar cal = new Calendar();
-		System.out.println("달을 입력하세요.");
-		int month = scanner.nextInt();
 		
-		int[] maxDays = {31,28,31,30,31,30,31,31,30,31,30,31};
+		// 반복 횟수 입력
+		System.out.println("반복횟수를 입력하세요.");
+		int repeatCount = scanner.nextInt();
+		int[] months = new int[repeatCount];
 		
-		System.out.printf("%d월은 %d까지 있습니다.\n", month, cal.getMaxDaysOfMonth(month));
+		// 월 입력
+		System.out.println("월을 입력하세요.");
+		for(int i=0; i < repeatCount; i++) {
+			months[i] = scanner.nextInt();
+		}
 		
-		cal.printSampleCalendar();
+		// 출력
+		for(int i=0; i < repeatCount; i++) {
+			System.out.printf("%d월은 %d까지 있습니다.\n", months[i], cal.getMaxDaysOfMonth(months[i]));
+		}
 		
 		scanner.close();
 		
