@@ -24,12 +24,14 @@ public class Calendar {
 		// * 배열을 사용해 본다
 		// ## 요구사항
 		// * 월을 입력하면 그 달이 몇일로 구성되어 있는지 출력하는 프로그램 작성하기
-		int[] maxDay = {31,28,31,30,31,30,31,31,30,31,30,31};
 		
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("달을 입력하세요.");
-		int month = Integer.parseInt(scanner.next());
-		System.out.printf("%d월은 %d까지 있습니다.", month, maxDay[month-1]);
+		int month = scanner.nextInt();
+		
+		int[] maxDays = {31,28,31,30,31,30,31,31,30,31,30,31};
+		
+		System.out.printf("%d월은 %d까지 있습니다.\n", month, maxDays[month-1]);
 		scanner.close();
 		
 	}
