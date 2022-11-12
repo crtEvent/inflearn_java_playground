@@ -35,18 +35,13 @@ public class Calendar {
 		
 		// 반복 횟수 입력
 		System.out.println("반복횟수를 입력하세요.");
-		int repeatCount = scanner.nextInt();
-		int[] months = new int[repeatCount];
+		int repeat = scanner.nextInt();
 		
-		// 월 입력
-		System.out.println("월을 입력하세요.");
-		for(int i=0; i < repeatCount; i++) {
-			months[i] = scanner.nextInt();
-		}
-		
-		// 출력
-		for(int i=0; i < repeatCount; i++) {
-			System.out.printf("%d월은 %d까지 있습니다.\n", months[i], cal.getMaxDaysOfMonth(months[i]));
+		// 월 입력/마지막 날 출력
+		for(int i=0; i < repeat; i++) {
+			System.out.println("월을 입력하세요.");
+			int month = scanner.nextInt();
+			System.out.printf("%d월은 %d까지 있습니다.\n", month, cal.getMaxDaysOfMonth(month));
 		}
 		
 		scanner.close();
