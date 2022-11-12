@@ -2,12 +2,6 @@ package com.calendar;
 
 public class Calendar {
 	
-	// [과제4]
-	// ## 요구사항
-	// * 3단계와 같지만 년도와 월만 입력받는다.
-	// * 진짜 캘린더에서 나오는 달력과 똑같은 모양의 달력을 출력한다.
-	// * 추가적으로 입력받아야 하는 내용이 있는지 생각해 보자.
-	
 	private static final int[] MAX_DAYS = {0, 31,28,31,30,31,30,31,31,30,31,30,31};
 	private static final int[] LEAP_MAX_DAYS = {0, 31,29,31,30,31,30,31,31,30,31,30,31};
 	
@@ -30,7 +24,7 @@ public class Calendar {
 	
 	public int getWeekDay(int year, int month, int day) {
 		int syear = 1970;
-		final int STANDARD_WEEKDAY = 3; // 1970/Jan/1st = Thursday
+		final int STANDARD_WEEKDAY = 4; // 1970/Jan/1st = Thursday
 		
 		int count = 0;
 		
@@ -44,7 +38,7 @@ public class Calendar {
 			count += delta;		
 		}
 		
-		count += day; 
+		count += year >= 1970? day-1 : day; 
 		
 		int weekday = (count+STANDARD_WEEKDAY) % 7;
 		
