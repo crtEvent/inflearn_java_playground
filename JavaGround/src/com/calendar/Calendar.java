@@ -21,29 +21,32 @@ public class Calendar {
 
 	public static void main(String[] args) {
 		
-		// [과제3]
-		// 반복 입력하도록 프로그램 변경하기
-		// ## 학습목표
-		// * 반복문을 사용해 본다.
-		// * for 문과 while 문의 차이점에 대해 생각해 본다.
-		// ## 요구사항
-		// * 월을 입력하면 그 달이 몇일로 구성되어 있는지 출력하는 프로그램 작성하기
-		// * 원하는 입력횟수를 먼저 입력받는다.
-
+		// 종료 조건을 이용해 반복하기
+		String PROMPT = "cal> ";
+		
 		Scanner scanner = new Scanner(System.in);
 		Calendar cal = new Calendar();
 		
-		// 반복 횟수 입력
-		System.out.println("반복횟수를 입력하세요.");
-		int repeat = scanner.nextInt();
-		
+		int month = 1;
+
 		// 월 입력/마지막 날 출력
-		for(int i=0; i < repeat; i++) {
+		while(true) {
 			System.out.println("월을 입력하세요.");
-			int month = scanner.nextInt();
+			System.out.print(PROMPT);
+			
+			month = scanner.nextInt();
+			if(month == -1) {
+				break;
+			}
+			
+			if(month > 12 || month < -1) {
+				continue;
+			}
+			
 			System.out.printf("%d월은 %d까지 있습니다.\n", month, cal.getMaxDaysOfMonth(month));
 		}
 		
+		System.out.println("Bye~");
 		scanner.close();
 		
 	}
