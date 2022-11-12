@@ -8,8 +8,8 @@ public class Calendar {
 	// * 진짜 캘린더에서 나오는 달력과 똑같은 모양의 달력을 출력한다.
 	// * 추가적으로 입력받아야 하는 내용이 있는지 생각해 보자.
 	
-	private static final int[] MAX_DAYS = {31,28,31,30,31,30,31,31,30,31,30,31};
-	private static final int[] LEAP_MAX_DAYS = {31,29,31,30,31,30,31,31,30,31,30,31};
+	private static final int[] MAX_DAYS = {0, 31,28,31,30,31,30,31,31,30,31,30,31};
+	private static final int[] LEAP_MAX_DAYS = {0, 31,29,31,30,31,30,31,31,30,31,30,31};
 	
 	public boolean isLeapYear(int year) {
 		if(year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)) {
@@ -21,39 +21,34 @@ public class Calendar {
 	
 	public int getMaxDaysOfMonth(int year, int month) {
 		if(isLeapYear(year)) {
-			return LEAP_MAX_DAYS[month-1];
+			return LEAP_MAX_DAYS[month];
 		} else {
-			return MAX_DAYS[month-1];
+			return MAX_DAYS[month];
 		}
 		
 	}
 	
-	public int getWeekDay(int year, int month) {
+	public int getWeekDay(int year, int month, int day) {
+		int syear = 1970;
+		final int STANDARD_WEEKDAY = 3; // 1970/Jan/1st = Thursday
 		
-		// ##달력 알고리즘(그레고리력)
-		// * 1년 1월 1일은 월요일이다.
-		// * 1년 1월 1일부터 지금까지의 모든 일 수를 구하여 7로 나눈 나머지를 요일로 한다.
+		int count = 0;
 		
-		// ## 1년 1월 1일 부터 작년 12월 31일 까지의 일 수 구하기
-		// * (year-1)*365 : 작년도 x 365일
-		// * (year-1)/4 : 윤년으로 늘어난 일수를 더해준다
-		// * (year-1)/100 : (year-1)/4 중 윤년이 아닌 날을 빼준다
-		// * (year-1)/400 : (year-1)/100에서 윤년인 날을 더해준다
-		
-		int allDay = 0;
-		
-		// 1년 1월 1일 부터 작년 12월 31일 까지의 일 수
-		allDay += (year-1)*365 + (year-1)/4 - (year-1)/100 + (year-1)/400;
-		
-		// 올해 지난 달 까지의 일수
-		for(int i=1; i < month; i++) {
-			allDay += getMaxDaysOfMonth(year, i);
+		for(int i = syear; i < year; i++) {
+			int delta = isLeapYear(i)? 366 : 365;
+			count += delta;
 		}
 		
-		// 이번 달의 1일
-		allDay += 1;
+		for(int i=1; i < month; i++) {
+			int delta = getMaxDaysOfMonth(year, i);
+			count += delta;		
+		}
 		
-		return allDay%7;
+		count += day; 
+		
+		int weekday = (count+STANDARD_WEEKDAY) % 7;
+		
+		return weekday;
 	}
 	
 	public void printCalendar(int year, int month) {
@@ -63,7 +58,7 @@ public class Calendar {
 		System.out.println("---------------------");
 		
 		//get weekday automatically
-		int weekday = getWeekDay(year, month);
+		int weekday = getWeekDay(year, month, 1);
 		
 		// print blank space
 		for(int i=0; i < weekday; i++) {
