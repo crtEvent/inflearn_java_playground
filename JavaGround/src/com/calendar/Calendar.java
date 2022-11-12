@@ -21,7 +21,14 @@ public class Calendar {
 
 	public static void main(String[] args) {
 		
-		// 종료 조건을 이용해 반복하기
+		// [과제3]
+		// ## 요구사항
+		// * 월을 입력하면 해당월의 달력을 출력한다.
+		// * 달력은 모양은 1단계에서 작성한 모양으로 만든다.
+		// * 1일은 일요일로 정해도 무방하다.
+		// * -1을 입력받기 전까지 반복 입력받는다.
+		// * 프롬프트를 출력한다.
+		
 		String PROMPT = "cal> ";
 		
 		Scanner scanner = new Scanner(System.in);
@@ -43,7 +50,28 @@ public class Calendar {
 				continue;
 			}
 			
-			System.out.printf("%d월은 %d까지 있습니다.\n", month, cal.getMaxDaysOfMonth(month));
+			int day = 0;
+			System.out.println("일   월   화   수   목   금   토");
+			System.out.println("--------------------");
+			for(int i=1; i <= cal.getMaxDaysOfMonth(month); i++) {
+				
+				if(i/10 == 0) {
+					System.out.print(" "+i+" ");
+				} else {
+					System.out.print(i+" ");
+				}
+				
+				day++;
+				
+				if(day==7) {
+					System.out.println("");
+					day=0;
+				}
+				
+				if(i==cal.getMaxDaysOfMonth(month)) {
+					System.out.println("");
+				}
+			}
 		}
 		
 		System.out.println("Bye~");
