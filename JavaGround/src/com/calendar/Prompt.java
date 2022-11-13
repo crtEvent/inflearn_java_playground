@@ -1,21 +1,21 @@
 package com.calendar;
 
+import java.text.ParseException;
 import java.util.Scanner;
+
+import calendar.PlanItem;
 
 public class Prompt {
 	
-	private static Scheduler scheduler = new Scheduler();
+	public void printMenu() {
+		System.out.println("+----------------------+");
+		System.out.println("| 1. 일정 등록                       ");
+		System.out.println("| 2. 일정 검색                       ");
+		System.out.println("| 3. 달력 보기                       ");
+		System.out.println("| h. 도움말 q. 종료               ");
+		System.out.println("+----------------------+");
+	}
 	
-	// [과제5]
-	// ##학습 목표
-	// * 리스트, 딕셔너리를 사용해 본다.
-	// ##요구 사항
-	// * 간단한 콘솔 기반 사용자 UI를 만든다. (일정 검색용)
-	// * 오늘 날짜를 인식해서 해당 월의 달력을 출력한다.
-	// * 달력에서 일정이 있는 날 아래에는 . 을 찍어서 보여준다.
-	// * 일정을 등록, 검색, 변경이 가능하게 해 준다.
-	// * 오늘의 일정을 표시해 준다.
-
 	/**
 	 * 
 	 * @param week
@@ -44,84 +44,90 @@ public class Prompt {
 		}
 
 	}
-
-	public void printMenu() {
-		System.out.println("+----------------------+");
-		System.out.println("| 1. 일정 등록                       ");
-		System.out.println("| 2. 일정 검색                       ");
-		System.out.println("| 3. 달력 보기                       ");
-		System.out.println("| h. 도움말 q. 종료               ");
-		System.out.println("+----------------------+");
-	}
 	
-	public void getCalendar(Scanner scanner) {
-		//Scanner scanner = new Scanner(System.in);
-		Calendar cal = new Calendar();
-
-		int month = -1;
-		int year = -1;
-
-		// 월 입력/마지막 날 출력
-		while (true) {
-
-			System.out.println("년도를 입력하세요.(exit: -1)");
-			System.out.print("YEAR> ");
-			year = scanner.nextInt();
-
-			if (year == -1) {
-				break;
-			}
-
-			System.out.println("월을 입력하세요.(exit: -1)");
-			System.out.print("MONTH> ");
-			month = scanner.nextInt();
-
-			if (month == -1) {
-				break;
-			}
-
-			if (month > 12 || month < -1) {
-				System.out.println("잘못된 값을 입력하였습니다.");
-				continue;
-			}
-			
-			cal.printCalendar(year, month);
-			break;
-		}
-	}
-
-	public void runPrompt() {
+	public void runPrompt() throws ParseException {
 		printMenu();
 		
-		boolean isContinue = true;
-		while(isContinue) {
+		Scanner scanner = new Scanner(System.in);
+		Calendar cal = new Calendar();
+		
+		boolean isLoop = true;
+		while(isLoop) {
 			System.out.println("명령 (1, 2, 3, h, q)");
-			System.out.print("> ");
-			Scanner scanner = new Scanner(System.in);
+			String cmd = scanner.next();
 			
-			switch(scanner.nextLine()) {
+			switch(cmd) {
 			case "1":
-				scheduler.addSchedule(scanner);
+				cmdRegister(scanner, cal);
 				break;
 			case "2":
-				scheduler.showSchedule(scanner);
+				cmdSearch(scanner, cal);
 				break;
 			case "3":
-				getCalendar(scanner);
+				cmdCal(scanner, cal);
 				break;
 			case "h":
 				printMenu();
 				break;
 			case "q":
-				System.out.println("Bye~");
-				isContinue = false;
-				scanner.close();
+				isLoop = false;
 				break;
 			} // end switch()
 		}// end while()
+		
+		System.out.println("Bye~!");
 	}
 
-	public static void main(String[] args) {
+	private void cmdSearch(Scanner scanner, Calendar cal) {
+		System.out.println("[일정 검색]");
+		System.out.println("날짜를 입력해 주세요 (yyyy-MM-dd).");
+		String date = scanner.next();
+		PlanItem plan;
+		plan = cal.searchPlan(date);
+		if (plan != null) {
+			System.out.println(plan.detail);
+		} else {
+			System.out.println("일정이 없습니다.");
+		}
+	}
+
+	private void cmdRegister(Scanner scanner, Calendar cal) throws ParseException {
+		System.out.println("[새 일정 등록]");
+		System.out.println("날짜를 입력해 주세요 (yyyy-MM-dd).");
+		String date = scanner.next();
+		String text = "";
+		System.out.println("일정을 입력해 주세요.(끝문자=;)");
+		String word;
+		while(!(word = scanner.next()).endsWith(";")) {
+			text += word +" ";
+		}
+		word = word.replace(";", "");
+		text += word;
+		cal.registerPlan(date, text);
+	}
+
+	private void cmdCal(Scanner scanner, Calendar cal) {
+
+		int month = 1;
+		int year = 2017;
+
+		System.out.println("년도를 입력하세요.");
+		System.out.print("YEAR> ");
+		year = scanner.nextInt();
+
+		System.out.println("달을 입력하세요.");
+		System.out.print("MONTH> ");
+		month = scanner.nextInt();
+
+		if (month > 12 || month < 1) {
+			System.out.println("잘못된 입력입니다.");
+			return;
+		}
+
+		cal.printCalendar(year, month);
+	}
+
+	public static void main(String[] args) throws ParseException {
 
 		// 셀 실행
 		Prompt p = new Prompt();
