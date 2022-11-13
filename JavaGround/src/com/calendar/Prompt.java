@@ -3,8 +3,6 @@ package com.calendar;
 import java.text.ParseException;
 import java.util.Scanner;
 
-import calendar.PlanItem;
-
 public class Prompt {
 	
 	public void printMenu() {
