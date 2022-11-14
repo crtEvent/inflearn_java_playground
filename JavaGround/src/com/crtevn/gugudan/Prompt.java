@@ -14,12 +14,14 @@ public class Prompt {
 	// 4. 사용자가 종료할 때 까지 반복
 	
 	public void runPrompt() {
-		System.out.println("2 이상의 하나의 정수 혹은 쉼표로 구분되는 두 자리 정수를 입력하세요.");
-		System.out.println("예) '8' or '8,7', 종료: q");
+		Gugudan gugudan = new Gugudan();
 		Scanner scanner = new Scanner(System.in);
 		
 		boolean isLoop = true;
 		while(isLoop) {
+			
+			System.out.println("2 이상의 정수 하나 혹은 쉼표로 구분되는 2 이상의 두 자리 정수를 입력하세요.");
+			System.out.println("예) '8' or '8,7', 종료: q");
 			String inputValue = scanner.nextLine();
 			
 			if(inputValue.equals("q")){
@@ -34,6 +36,7 @@ public class Prompt {
 				int firstInt = Integer.parseInt(splitedValue[0]);
 				System.out.printf("%d*%d 까지 계산합니다.\n", firstInt, firstInt);
 				// -> nn단 계산
+				gugudan.caculate(firstInt, firstInt);
 			}
 			
 			if (splitedValue.length == 2) {
@@ -41,8 +44,10 @@ public class Prompt {
 				int secondInt = Integer.parseInt(splitedValue[1]);
 				System.out.printf("%d*%d 까지 계산합니다.\n", firstInt, secondInt);
 				// -> nm단 계산
+				gugudan.caculate(firstInt, secondInt);
 			}
 			
+			System.out.println();
 		}
 		
 		scanner.close();
