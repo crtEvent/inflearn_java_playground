@@ -20,7 +20,8 @@ public class Prompt {
 		boolean isLoop = true;
 		while(isLoop) {
 			
-			System.out.println("2 이상의 정수 하나 혹은 쉼표로 구분되는 2 이상의 두 자리 정수를 입력하세요.");
+			System.out.println("하나의 정수(n) 또는 쉼표로 구분되는 두 정수(n, m)을 입력하세요.");
+			System.out.println("(단, 1 < n < 101, 0 < m < 101.)");
 			System.out.println("예) '8' or '8,7', 종료: q");
 			String inputValue = scanner.nextLine();
 			
@@ -31,6 +32,9 @@ public class Prompt {
 			}
 			
 			String[] splitedValue = inputValue.split(",");
+			if(!validationInputValue(splitedValue)){
+				continue;
+			}
 			
 			if (splitedValue.length == 1) {
 				int firstInt = Integer.parseInt(splitedValue[0]);
@@ -53,7 +57,34 @@ public class Prompt {
 		scanner.close();
 	}
 	
-	
+	/**
+	 * 사용자로 부터 입력받은 값이 유효한지 검사하는 메서드
+	 * @param strArr
+	 * @return 유효성검사에 통과하면 true 반환, 실패하면 false 반환
+	 */
+	public boolean validationInputValue(String[] strArr) {
+		
+		int firstInt, secondInt = 1;
+		
+		try {
+			firstInt = Integer.parseInt(strArr[0]);
+			
+			if(strArr.length > 1){
+				secondInt = Integer.parseInt(strArr[1]);
+			}
+			
+			if(firstInt < 2 || firstInt > 100 || secondInt < 1 || secondInt > 100) {
+				throw new Exception();
+			}
+			
+			return true;
+			
+		} catch (Exception e) {
+			System.out.println("잘못된 값이 들어왔습니다.\n");
+			return false;
+		}
+		
+	}
 	
 	public static void main(String[] args) {
 		Prompt p = new Prompt();
